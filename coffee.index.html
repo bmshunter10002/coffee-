@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Tavern Coffee - Glassmorphism</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           1. Basic Reset & Glassmorphism Variables
+           ========================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Lighter Warm Coffee Gradient Background */
+            --bg-gradient: linear-gradient(135deg, #5c3826, #80482b, #3d1c0f);
+            --glass-bg: rgba(90, 55, 38, 0.35);
+            --glass-card: rgba(105, 62, 41, 0.45);
+            --glass-border: rgba(232, 183, 135, 0.35);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --text-color: #fefae0;
+            --text-muted: #f0e1d1;
+            --primary-accent: #e0a96d;
+            --input-bg: rgba(64, 38, 26, 0.45);
+            --tag-bg: rgba(224, 169, 109, 0.3);
+            --tag-text: #fefae0;
+            --star-color: #f59e0b;
+        }
+
+        /* Dark Coffee Theme Variables */
+        body.dark-mode {
+            --bg-gradient: linear-gradient(135deg, #2a160d, #3d1f13, #1c0d07);
+            --glass-bg: rgba(45, 22, 13, 0.5);
+            --glass-card: rgba(55, 28, 16, 0.55);
+            --glass-border: rgba(212, 163, 115, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+            --text-color: #faedcd;
+            --text-muted: #d4833b;
+            --primary-accent: #d4a373;
+            --input-bg: rgba(0, 0, 0, 0.3);
+            --tag-bg: rgba(212, 163, 115, 0.2);
+            --tag-text: #fefae0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            min-height: 100vh;
+            transition: background 0.5s ease;
+            scroll-behavior: smooth;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        /* Navbar Glassmorphism */
+        header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0.8rem 20px;
+        }
+
+        .logo a {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .nav-right-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-center-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a { 
+            font-weight: 600; 
+            transition: color 0.3s ease; 
+            opacity: 0.9;
+        }
+        .nav-links a:hover { 
+            opacity: 1;
+            color: var(--primary-accent); 
+        }
+
+        /* Navbar Search Box */
+        .nav-search-box {
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .nav-search-input {
+            width: 100%;
+            padding: 6px 16px;
+            font-size: 0.85rem;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            background: var(--input-bg);
+            backdrop-filter: blur(10px);
+            color: var(--text-color);
+            outline: none;
+            box-shadow: var(--glass-shadow);
+            font-family: inherit;
+        }
+
+        .nav-search-input::placeholder { color: var(--text-muted); opacity: 0.8; }
+
+        /* Theme Toggle Box */
+        .theme-toggle-box {
+            width: 60px;
+            height: 30px;
+            background: var(--input-bg);
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toggle-circle {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 22px;
+            height: 22px;
+            background-color: var(--text-color);
+            border-radius: 50%;
+            transition: transform 0.4s ease;
+        }
+
+        body.dark-mode .toggle-circle {
+            transform: translateX(30px);
+        }
+
+        /* Hero Section Box */
+        .hero-section {
+            padding: 40px 0 20px;
+        }
+
+        .hero-box {
+            background: var(--glass-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: var(--glass-shadow);
+        }
+
+        .hero-content h1 { 
+            font-size: 2.5rem; 
+            margin-bottom: 10px; 
+            text-shadow: 0 4px 10px rgba(0,0,0,0.4); 
+        }
+
+        .hero-content p { 
+            font-size: 1.1rem; 
+            opacity: 0.95; 
+        }
+
+        /* Admin Panel Form */
+        .admin-section {
+            padding: 30px 0;
+        }
+
+        .admin-box {
+            background: var(--glass-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+        }
+
+        .admin-box h3 {
+            margin-bottom: 15px;
+            color: var(--text-color);
+            font-size: 1.2rem;
+        }
+
+        .admin-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        .admin-form input, .admin-form textarea, .admin-form select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            background: var(--input-bg);
+            backdrop-filter: blur(5px);
+            color: var(--text-color);
+            outline: none;
+            font-family: inherit;
+        }
+
+        .admin-form select option {
+            background-color: #2c1810;
+            color: #fff;
+        }
+
+        .admin-form textarea {
+            grid-column: 1 / -1;
+            resize: vertical;
+        }
+
+        .btn-add {
+            grid-column: 1 / -1;
+            padding: 12px;
+            background: var(--primary-accent);
+            color: #1c0f0a;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .btn-add:hover { opacity: 0.9; }
+
+        /* Coffee Items & Side Scroll Rows */
+        .coffee-section {
+            padding: 40px 0;
+        }
+
+        .group-container {
+            margin-bottom: 35px;
+        }
+
+        .group-title {
+            font-size: 1.3rem;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-accent);
+            padding-left: 10px;
+        }
+
+        /* Horizontal Scroll Wrapper */
+        .scroll-row {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 10px 5px 20px 5px;
+            scroll-behavior: smooth;
+        }
+
+        .scroll-row::-webkit-scrollbar { height: 8px; }
+        .scroll-row::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        .scroll-row::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
+
+        /* Card Glassmorphism Styling */
+        .coffee-card {
+            min-width: 250px;
+            max-width: 250px;
+            background: var(--glass-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            padding: 18px;
+            text-align: center;
+            box-shadow: var(--glass-shadow);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .coffee-card:hover { 
+            transform: translateY(-6px); 
+            border-color: rgba(212, 163, 115, 0.6);
+        }
+
+        .clickable-area {
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .coffee-img-box {
+            width: 100%;
+            height: 140px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+
+        .coffee-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .coffee-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 2px;
+        }
+
+        .coffee-category {
+            font-size: 0.8rem;
+            color: var(--primary-accent);
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .coffee-price {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 4px;
+        }
+
+        .coffee-tag {
+            display: inline-block;
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            border: 1px solid var(--glass-border);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-bottom: 6px;
+        }
+
+        .coffee-stars {
+            color: var(--star-color);
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .coffee-desc {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+            margin-bottom: 12px;
+        }
+
+        .buy-btn {
+            background: var(--primary-accent);
+            color: #1c0f0a;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.3s ease;
+            margin-top: auto;
+        }
+
+        .buy-btn:hover { opacity: 0.85; }
+
+        .no-results {
+            text-align: center;
+            font-size: 1.1rem;
+            display: none;
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        /* Product Modal (Popup) Glassmorphism */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            background: var(--glass-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 25px;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .modal-img-box {
+            width: 100%;
+            max-height: 220px;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .modal-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Order Section Glassmorphism */
+        .order-section {
+            padding: 50px 0;
+        }
+
+        .order-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--glass-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: var(--glass-shadow);
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            background: var(--input-bg);
+            backdrop-filter: blur(5px);
+            color: var(--text-color);
+            font-family: inherit;
+            outline: none;
+        }
+
+        .form-group select option {
+            background-color: #2c1810;
+            color: #fff;
+        }
+
+        .price-summary {
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .summary-item.total {
+            border-top: 1px dashed var(--glass-border);
+            padding-top: 8px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--primary-accent);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--primary-accent);
+            color: #1c0f0a;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 48px;
+        }
+
+        .submit-btn:hover { opacity: 0.85; }
+
+        .submit-btn.submitted {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Coffee Cup Spinner Animation */
+        @keyframes spinCup {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .spinning-cup {
+            display: inline-block;
+            font-size: 2rem;
+            animation: spinCup 1s linear infinite;
+        }
+
+        .confirmation-box {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .checkmark-icon {
+            font-size: 3rem;
+            color: var(--primary-accent);
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-color);
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Nav -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#">☕ The Tavern Coffee</a>
+            </div> 
+            
+            <div class="nav-right-container">
+                <div class="nav-center-wrapper">
+                    <ul class="nav-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#admin">Owner Panel</a></li>
+                        <li><a href="#menu">Menu</a></li>
+                        <li><a href="#order-section">Order Now</a></li>
+                    </ul>
+                    <div class="nav-search-box">
+                        <input type="text" id="searchInput" class="nav-search-input" placeholder="Search coffee or bakery items..." onkeyup="filterCoffee()">
+                    </div>
+                </div>
+
+                <div id="themeToggleBox" class="theme-toggle-box" title="Toggle Theme">
+                    <span>☀️</span>
+                    <span>🌙</span>
+                    <div class="toggle-circle"></div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section with Glassmorphism Box -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-box">
+                <div class="hero-content">
+                    <h1>Welcome to The Tavern Coffee</h1>
+                    <p>Experience freshly brewed artisan coffee delivered hot to your seat.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Owner / Admin Panel -->
+    <section id="admin" class="admin-section">
+        <div class="container">
+            <div class="admin-box">
+                <h3>Admin Panel (কফি / আইটেম যোগ বা পরিবর্তন করুন)</h3>
+                <form id="addCoffeeForm" class="admin-form">
+                    <input type="text" id="coffeeName" placeholder="আইটেমের নাম (যেমন: Caramel Macchiato)" required>
+                    <input type="text" id="coffeeGroup" placeholder="ক্যাটাগরি (যেমন: Espresso, Cold Coffee, Bakery)" required>
+                    <input type="number" id="coffeePrice" placeholder="দাম BDT (যেমন: 250)" required>
+                    <input type="text" id="coffeeTag" placeholder="ট্যাগ (যেমন: Bestseller, 10% OFF)" required>
+                    <select id="coffeeRating" required>
+                        <option value="★★★★★">★★★★★ (5 Star)</option>
+                        <option value="★★★★☆">★★★★☆ (4 Star)</option>
+                        <option value="★★★☆☆">★★★☆☆ (3 Star)</option>
+                    </select>
+                    <!-- Type 'text' easy URL acceptance -->
+                    <input type="text" id="coffeeImg" placeholder="ইমেজ লিংক (URL)" required>
+                    <textarea id="coffeeDesc" rows="2" placeholder="আইটেমের বিবরণ (Description)" required></textarea>
+                    <button type="submit" class="btn-add">আইটেম যুক্ত করুন</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coffee Menu Section -->
+    <section id="menu" class="coffee-section">
+        <div class="container">
+            <h2 class="section-title">Our Specialty Menu</h2>
+            <div id="noResults" class="no-results">No menu items found matching your search.</div>
+            <div id="coffeeGroupsContainer">
+                <!-- Dynamic Content -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Details Modal (Popup) -->
+    <div id="detailsModal" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-modal" onclick="closeModalDirect()">&times;</span>
+            <div class="modal-img-box">
+                <img id="modalImg" src="" alt="Coffee Image" onerror="this.src='https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400';">
+            </div>
+            <h2 id="modalName" class="coffee-name" style="font-size: 1.4rem;"></h2>
+            <p id="modalCategory" class="coffee-category" style="font-size: 0.9rem; margin-bottom: 8px;"></p>
+            <p id="modalPrice" class="coffee-price" style="font-size: 1.2rem;"></p>
+            <span id="modalTag" class="coffee-tag"></span>
+            <div id="modalRating" class="coffee-stars" style="margin-top: 5px;"></div>
+            <p id="modalDesc" class="coffee-desc" style="font-size: 0.95rem; margin: 15px 0;"></p>
+            <button id="modalBuyBtn" class="buy-btn">Order Now</button>
+        </div>
+    </div>
+
+    <!-- Order Section -->
+    <section id="order-section" class="order-section">
+        <div class="container">
+            <h2 class="section-title">Place Your Order</h2>
+            <div class="order-card">
+                
+                <form id="orderForm" onsubmit="handleOrderSubmit(event)">
+                    <div class="form-group">
+                        <label for="custName">Name (নাম)</label>
+                        <input type="text" id="custName" required placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="custAddress">Address / Table No. (ঠিকানা অথবা টেবিল নং)</label>
+                        <input type="text" id="custAddress" required placeholder="Delivery address or Table Number">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="custPhone">Phone Number (ফোন নম্বর)</label>
+                        <input type="tel" id="custPhone" required placeholder="01XXXXXXXXX">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="custEmail">Email Address (ইমেইল)</label>
+                        <input type="email" id="custEmail" required placeholder="example@mail.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="coffeeSelect">Select Item (কফি/আইটেম নির্বাচন করুন)</label>
+                        <select id="coffeeSelect" onchange="updateCalculations()">
+                            <!-- Dynamic Load -->
+                        </select>
+                    </div>
+
+                    <!-- Price Summary -->
+                    <div class="price-summary">
+                        <div class="summary-item">
+                            <span>Item Name:</span>
+                            <span id="summaryCoffeeName">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Price (মূল্য):</span>
+                            <span>৳ <span id="summaryPrice">0.00</span></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>VAT (ভ্যাট - ৫%):</span>
+                            <span>৳ <span id="summaryVat">0.00</span></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Delivery Charge (ডেলিভারি চার্জ):</span>
+                            <span>৳ <span id="summaryDelivery">40.00</span></span>
+                        </div>
+                        <div class="summary-item total">
+                            <span>Total Amount (সর্বমোট):</span>
+                            <span>৳ <span id="summaryTotal">0.00</span></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="submit-btn">Confirm Order</button>
+                </form>
+
+                <!-- Order Success Confirmation -->
+                <div id="confirmationBox" class="confirmation-box">
+                    <div class="checkmark-icon">☕</div>
+                    <h2>Order Confirmed!</h2>
+                    <p>ধন্যবাদ! আপনার কফির অর্ডারটি সফলভাবে নেওয়া হয়েছে। খুব শীঘ্রই আপনার টেবিলে বা ঠিকানায় গরম কফি পৌঁছে যাবে।</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 The Tavern Coffee | All Rights Reserved</p>
+    </footer>
+
+    <!-- JavaScript Scripting -->
+    <script>
+        const defaultFallbackImg = "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400";
+
+        // Initial Default Coffee Items
+        const defaultCoffee = [
+            { name: "Espresso Shot", group: "Hot Coffee", price: 120, tag: "Strong", rating: "★★★★★", img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400", desc: "Pure rich, concentrated shot of pure arabica coffee." },
+            { name: "Cappuccino", group: "Hot Coffee", price: 220, tag: "Classic", rating: "★★★★★", img: "https://images.unsplash.com/photo-1534778101976-62847782c213?w=400", desc: "Espresso with equal parts steamed milk and thick foam." },
+            { name: "Caffè Latte", group: "Hot Coffee", price: 240, tag: "Smooth", rating: "★★★★★", img: "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=400", desc: "Rich espresso combined with creamy steamed milk." },
+            { name: "Iced Caramel Macchiato", group: "Cold Coffee", price: 290, tag: "Bestseller", rating: "★★★★★", img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400", desc: "Espresso mixed with vanilla syrup, milk, ice, and caramel drizzle." },
+            { name: "Cold Brew Special", group: "Cold Coffee", price: 260, tag: "Refreshing", rating: "★★★★☆", img: "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=400", desc: "Steeped for 18 hours for maximum smoothness and low acidity." },
+            { name: "Chocolate Hazelnut Mocha", group: "Frappe & Blended", price: 320, tag: "Sweet", rating: "★★★★★", img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400", desc: "Blended coffee with rich dark chocolate and hazelnut syrup." },
+            { name: "Blueberry Muffin", group: "Bakery & Snacks", price: 150, tag: "Freshly Baked", rating: "★★★★☆", img: "https://images.unsplash.com/photo-1607958996333-41aef7caefaa?w=400", desc: "Soft, moist muffin packed with real juicy blueberries." },
+            { name: "Butter Croissant", group: "Bakery & Snacks", price: 180, tag: "Crispy", rating: "★★★★★", img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400", desc: "Flaky and buttery French croissant served warm." }
+        ];
+
+        // LocalStorage Helpers
+        function getCoffee() {
+            const saved = localStorage.getItem('tavern_coffee_items');
+            return saved ? JSON.parse(saved) : defaultCoffee;
+        }
+
+        function saveCoffee(data) {
+            localStorage.setItem('tavern_coffee_items', JSON.stringify(data));
+        }
+
+        // Render Coffee grouped with Horizontal Scroll
+        function renderCoffee() {
+            const items = getCoffee();
+            const container = document.getElementById('coffeeGroupsContainer');
+            container.innerHTML = '';
+
+            // Grouping logic
+            const groups = {};
+            items.forEach(item => {
+                const grp = item.group.trim();
+                if (!groups[grp]) groups[grp] = [];
+                groups[grp].push(item);
+            });
+
+            // Build HTML
+            for (const grpName in groups) {
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'group-container';
+
+                let groupHTML = `
+                    <h3 class="group-title">Category: ${grpName}</h3>
+                    <div class="scroll-row">
+                `;
+
+                groups[grpName].forEach(item => {
+                    const itemString = encodeURIComponent(JSON.stringify(item));
+                    const imageSrc = item.img && item.img.trim() !== "" ? item.img : defaultFallbackImg;
+
+                    groupHTML += `
+                        <div class="coffee-card" data-name="${item.name}" data-category="${item.group}">
+                            <div class="clickable-area" onclick="openModal('${itemString}')">
+                                <div class="coffee-img-box">
+                                    <img src="${imageSrc}" alt="${item.name}" onerror="this.onerror=null;this.src='${defaultFallbackImg}';">
+                                </div>
+                                <h4 class="coffee-name">${item.name}</h4>
+                                <p class="coffee-category">(${item.group})</p>
+                                <p class="coffee-price">৳ ${parseFloat(item.price).toFixed(2)}</p>
+                                <span class="coffee-tag">${item.tag}</span>
+                                <div class="coffee-stars">${item.rating}</div>
+                                <p class="coffee-desc">${item.desc}</p>
+                            </div>
+                            <button class="buy-btn" onclick="selectCoffee('${item.name}', ${item.price})">Order Now</button>
+                        </div>
+                    `;
+                });
+
+                groupHTML += `</div>`;
+                groupDiv.innerHTML = groupHTML;
+                container.appendChild(groupDiv);
+            }
+
+            populateDropdown();
+            updateCalculations();
+        }
+
+        // Open Modal Details
+        function openModal(itemObjStr) {
+            const item = JSON.parse(decodeURIComponent(itemObjStr));
+            const imageSrc = item.img && item.img.trim() !== "" ? item.img : defaultFallbackImg;
+
+            document.getElementById('modalImg').src = imageSrc;
+            document.getElementById('modalName').innerText = item.name;
+            document.getElementById('modalCategory').innerText = "Category: " + item.group;
+            document.getElementById('modalPrice').innerText = "৳ " + parseFloat(item.price).toFixed(2);
+            document.getElementById('modalTag').innerText = item.tag;
+            document.getElementById('modalRating').innerText = item.rating;
+            document.getElementById('modalDesc').innerText = item.desc;
+
+            const buyBtn = document.getElementById('modalBuyBtn');
+            buyBtn.onclick = function() {
+                closeModalDirect();
+                selectCoffee(item.name, item.price);
+            };
+
+            document.getElementById('detailsModal').style.display = 'flex';
+        }
+
+        function closeModal(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                document.getElementById('detailsModal').style.display = 'none';
+            }
+        }
+
+        function closeModalDirect() {
+            document.getElementById('detailsModal').style.display = 'none';
+        }
+
+        // Populate Order Form Dropdown
+        function populateDropdown() {
+            const select = document.getElementById('coffeeSelect');
+            select.innerHTML = '';
+            const items = getCoffee();
+
+            items.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.price;
+                option.setAttribute('data-name', item.name);
+                option.innerText = `${item.name} - ৳ ${parseFloat(item.price).toFixed(2)}`;
+                select.appendChild(option);
+            });
+        }
+
+        // Admin Add Coffee Submit
+        document.getElementById('addCoffeeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let imgUrl = document.getElementById('coffeeImg').value.trim();
+            // URL Formatting Check
+            if (imgUrl && !imgUrl.startsWith('http://') && !imgUrl.startsWith('https://') && !imgUrl.startsWith('data:image')) {
+                imgUrl = 'https://' + imgUrl;
+            }
+
+            const newItem = {
+                name: document.getElementById('coffeeName').value,
+                group: document.getElementById('coffeeGroup').value,
+                price: parseFloat(document.getElementById('coffeePrice').value),
+                tag: document.getElementById('coffeeTag').value,
+                rating: document.getElementById('coffeeRating').value,
+                img: imgUrl,
+                desc: document.getElementById('coffeeDesc').value
+            };
+
+            const current = getCoffee();
+            current.push(newItem);
+            saveCoffee(current);
+
+            renderCoffee();
+            this.reset();
+            alert('নতুন কফি আইটেম সফলভাবে যুক্ত করা হয়েছে!');
+        });
+
+        // Filter Function for Live Search
+        function filterCoffee() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const groupContainers = document.querySelectorAll('.group-container');
+            let totalVisible = 0;
+
+            groupContainers.forEach(group => {
+                let visibleInGroup = 0;
+                const groupCards = group.querySelectorAll('.coffee-card');
+
+                groupCards.forEach(card => {
+                    const name = card.getAttribute('data-name').toLowerCase();
+                    const category = card.getAttribute('data-category').toLowerCase();
+
+                    if (name.includes(input) || category.includes(input)) {
+                        card.style.display = 'flex';
+                        visibleInGroup++;
+                        totalVisible++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                if (visibleInGroup === 0) {
+                    group.style.display = 'none';
+                } else {
+                    group.style.display = 'block';
+                }
+            });
+
+            const noResults = document.getElementById('noResults');
+            noResults.style.display = (totalVisible === 0) ? 'block' : 'none';
+        }
+
+        // Calculate Prices in Order Summary
+        function updateCalculations() {
+            const select = document.getElementById('coffeeSelect');
+            if (!select.options.length) return;
+
+            const price = parseFloat(select.value) || 0;
+            const coffeeName = select.options[select.selectedIndex].getAttribute('data-name');
+            
+            const vat = price * 0.05; // 5% VAT
+            const deliveryCost = 40.00;
+            const total = price + vat + deliveryCost;
+
+            document.getElementById('summaryCoffeeName').innerText = coffeeName;
+            document.getElementById('summaryPrice').innerText = price.toFixed(2);
+            document.getElementById('summaryVat').innerText = vat.toFixed(2);
+            document.getElementById('summaryDelivery').innerText = deliveryCost.toFixed(2);
+            document.getElementById('summaryTotal').innerText = total.toFixed(2);
+        }
+
+        // Select coffee via "Order Now" button
+        function selectCoffee(name, price) {
+            const select = document.getElementById('coffeeSelect');
+            for (let i = 0; i < select.options.length; i++) {
+                if (select.options[i].getAttribute('data-name') === name) {
+                    select.selectedIndex = i;
+                    break;
+                }
+            }
+            updateCalculations();
+            document.getElementById('order-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Handle Order Form Submit with 5s Spinning Cup Animation
+        function handleOrderSubmit(event) {
+            event.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            
+            btn.classList.add('submitted');
+            btn.innerHTML = '<span class="spinning-cup">☕</span>';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                document.getElementById('orderForm').style.display = 'none';
+                document.getElementById('confirmationBox').style.display = 'block';
+            }, 5000);
+        }
+
+        // Dark Mode Toggle
+        const themeToggleBox = document.getElementById('themeToggleBox');
+        themeToggleBox.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+        });
+
+        // Initialize Page
+        window.onload = () => {
+            renderCoffee();
+        };
+    </script>
+</body>
+</html>
